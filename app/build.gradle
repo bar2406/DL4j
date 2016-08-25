@@ -1,0 +1,44 @@
+apply plugin: 'com.android.application'
+
+android {
+    packagingOptions {
+        exclude 'META-INF/maven/org.nd4j/nd4j-native/pom.xml'
+        exclude 'META-INF/maven/org.nd4j/nd4j-native/pom.properties'
+//        exclude 'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.xml'
+//        exclude 'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.properties'
+
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    compileSdkVersion 24
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "noam.bar.myapplication"
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+configurations {
+    all*.exclude group: 'org.bytedeco', module: 'javacpp-presets'
+}
+dependencies {
+    compile 'com.android.support:multidex:1.0.0'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:24.1.1'
+    compile group: 'org.nd4j', name: 'nd4j-native-platform', version:'0.5.0'
+//    compile group: 'org.deeplearning4j', name: 'deeplearning4j-core', version:'0.5.0'
+
+}
